@@ -24,7 +24,7 @@ const server = new ApolloServer({
 apolloServer.applyMiddleware({
   app,
   cors: {
-    origin: "https://happy-liskov-001d71.netlify.app",
+    origin: "https://djokovic-social-network.herokuapp.com/",
     credentials: true,
   },
 });
