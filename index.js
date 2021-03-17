@@ -9,16 +9,24 @@ const { MONGODB } = require("./config.js");
 
 const pubsub = new PubSub();
 
-const corsOptions = {
-  origin: "https://djokovic-social-network.herokuapp.com/",
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: "https://djokovic-social-network.herokuapp.com/",
+//   credentials: true,
+// };
 
 const server = new ApolloServer({
   typeDefs,
-  cors: cors(corsOptions),
+
   resolvers,
   context: ({ req }) => ({ req, pubsub }),
+});
+
+apolloServer.applyMiddleware({
+  app,
+  cors: {
+    origin: "https://happy-liskov-001d71.netlify.app",
+    credentials: true,
+  },
 });
 
 // const server = new ApolloServer({
