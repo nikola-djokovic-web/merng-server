@@ -1,9 +1,14 @@
 const { ApolloServer, PubSub } = require("apollo-server");
 const mongoose = require("mongoose");
+const express = require("express");
+const cors = require("cors");
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
 const { MONGODB } = require("./config.js");
+
+const app = express();
+app.use(cors());
 
 const pubsub = new PubSub();
 
