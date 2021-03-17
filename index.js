@@ -7,18 +7,42 @@ const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
 const { MONGODB } = require("./config.js");
 
-const app = express();
-app.use(cors());
-
 const pubsub = new PubSub();
 
-const PORT = process.env.PORT || 5000;
+const corsOptions = {
+  origin: "https://djokovic-social-network.herokuapp.com/",
+  credentials: true,
+};
 
 const server = new ApolloServer({
   typeDefs,
+  cors: cors(corsOptions),
   resolvers,
   context: ({ req }) => ({ req, pubsub }),
 });
+
+// const server = new ApolloServer({
+//     ....,
+//     cors: {
+//         credentials: true,
+//         origin: (origin, callback) => {
+//             const whitelist = [
+//                 "http://site1.com",
+//                 "https://site2.com"
+//             ];
+
+//             if (whitelist.indexOf(origin) !== -1) {
+//                 callback(null, true)
+//             } else {
+//                 callback(new Error("Not allowed by CORS"))
+//             }
+//         }
+//     }
+// });
+
+server.applyMiddleware({ app });
+
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(MONGODB, { useNewUrlParser: true })
